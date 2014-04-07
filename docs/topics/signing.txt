@@ -34,6 +34,22 @@ When you create a new Django project using :djadmin:`startproject`, the
 data -- it is vital you keep this secure, or attackers could use it to
 generate their own signed values.
 
+.. warning::
+    In production, be sure to protect your :setting:`SECRET_KEY`,
+    change it can break modules' data arising like cookies and sessions.
+
+:setting:`SECRET_KEY` is used by ``django.utils.crypto.salted_hmac``
+which is present in serveral ``django.core`` and ``django.contrib``'s module.
+Basically we can list the following:
+
+- ``django.core.http.request.HttpRequest``
+- ``django.core.http.response.HttpResponseBase``
+- ``django.contrib.messages.storage.CookieStorage``
+- ``django.contrib.sessions.backends.base.SessionBase``
+- ``django.contrib.auth.tokens.PasswordResetTokenGenerator``
+- ``django.contrib.auth.models.AbstractBaseUser.get_session_auth_hash`` (since 1.8)
+- ``django.contrib.formtool.utils.form_hmac``
+
 Using the low-level API
 =======================
 
